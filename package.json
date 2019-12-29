@@ -1,0 +1,36 @@
+{
+  "name": "react-practice",
+  "version": "1.0.0",
+  "description": "practice react app",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon server.js",
+    "start": "node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tcalhounjr/react-practice.git"
+  },
+  "author": "Brad Traversy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tcalhounjr/react-practice/issues"
+  },
+  "homepage": "https://github.com/tcalhounjr/react-practice#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.2.4",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "express-validator": "^6.3.1",
+    "gravatar": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "neo4j-driver": "^4.0.1",
+    "neode": "^0.3.6",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "concurrently": "^5.0.2",
+    "nodemon": "^2.0.2"
+  }
+}
