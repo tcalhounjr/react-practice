@@ -30,13 +30,14 @@ router.get('/', auth, async (req, res) => {
         res.status(500).send('Server Error');
     }
 });
+
 //@route  POST api/auth
 //@desc   Authenticate user and get token for login
 //@access Public
 
 router.post('/', [
     check('email', 'Please enter a valid email').isEmail(),
-    check('password', 'Invalid login credentials').isLength({ min: 6 })
+    check('password', 'Password is required').exists()
 ],
     async (req, res) => {
         const errors = validationResult(req);
