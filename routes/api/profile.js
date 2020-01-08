@@ -85,9 +85,11 @@ router.post('/',
         if (education) profileFields.education = education;
         if (experience) profileFields.experience = experience;
         if (education) profileFields.education = education;
-        // if (skills) {
-        //     profileFields.skills = skills.split(',').map(skill => skill.trim());
-        // }
+        if (skills) {
+            // let skillsArray = skills.split(',').map(skill => skill.trim());
+            // if necessary, just build the skills array once it's pulled from the DB
+            profileFields.skills = skills;
+        }
         console.log(profileFields);
         //Build social object
         socialProfiles = {};

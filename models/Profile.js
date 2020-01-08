@@ -13,8 +13,8 @@ module.exports = {
         required: true
     },
     skills: {
-        type: ['string']
-        //required: true
+        type: 'string',
+        required: true
     },
     bio: {
         type: 'string',
