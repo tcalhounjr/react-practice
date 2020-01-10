@@ -112,8 +112,8 @@ router.post('/',
                 console.log('created or updated user profile');
                 const socialNode = await neode.merge('SocialProfile', socialProfiles);
                 console.log('created or updated social profile');
-                let profileRel = await profileNode.relateTo(userNode, 'belongs_to');
-                let socialRel = await socialNode.relateTo(userNode, 'belongs_to');
+                await profileNode.relateTo(userNode, 'belongs_to');
+                await socialNode.relateTo(userNode, 'belongs_to');
 
                 return res.json({ pF: profileFields, sF: socialProfiles });
             }
@@ -129,6 +129,47 @@ router.post('/',
         res.send('Something went terribly wrong. Go fix it!!!');
 
     }
+
+
 );
+
+//@route  GET api/profile/
+//@desc   Get all profiles
+//@access Public
+router.get('/', async (req, res) => {
+    try {
+        let userProfilesArray = [];
+        let allProfiles = {};
+        const users = await neode.cypher(config.get('allUsersQuery'));
+
+        //This line returns a collection of results in the form of an array
+        //The 'u' represents the return alias used in the query 
+        let usersArray = await neode.hydrate(users, 'u').toJson();
+
+        for (let i = 0; i < usersArray.length; i++) {
+            console.log('inside the for loop');
+            console.log(usersArray[i].email);
+            let userProfile = await neode.cypher(config.get('userProfileQuery'), {
+                email: usersArray[i].email
+            });
+            console.log(userProfile);
+            let nextProfileNode = await neode.hydrate(userProfile, 'profile').toJson();
+            userProfilesArray.push(nextProfileNode);
+            console.log(nextProfileNode);
+
+        }
+
+        allProfiles = {
+            users: usersArray,
+            profiles: userProfilesArray
+        }
+
+        res.json(allProfiles);
+    }
+    catch (err) {
+        console.error(err.messsage);
+        res.status(500).send('Sever Error');
+    }
+});
 
 module.exports = router;

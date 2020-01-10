@@ -1,5 +1,5 @@
 {
     "jwtSecret": "uzosecret2020",
     "userProfileQuery": "MATCH (u:User {email: {email}})<-[:BELONGS_TO]-(profile) RETURN profile",
-    "socialProfileQuery": "MATCH (u:User {email: {email}})<-[:BELONGS_TO]-(social) RETURN social"
+    "allUsersQuery": "MATCH (u:User) RETURN u"
 }
