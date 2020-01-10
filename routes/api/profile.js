@@ -90,7 +90,7 @@ router.post('/',
             // if necessary, just build the skills array once it's pulled from the DB
             profileFields.skills = skills;
         }
-        console.log(profileFields);
+
         //Build social object
         socialProfiles = {};
         if (youtube) socialProfiles.youtube = youtube;
@@ -98,23 +98,17 @@ router.post('/',
         if (facebook) socialProfiles.facebook = facebook;
         if (linkedIn) socialProfiles.linkedIn = linkedIn;
         if (instagram) socialProfiles.instagram = instagram;
-        console.log(socialProfiles);
-        // console.log('show social fields for profile');
-        // console.log(socialProfiles);
+        socialProfiles.userEmail = "";
 
         try {
             //Either create profiles and add relationships or update existing profiles
             const userNode = await neode.findById('User', req.login.id);
             if (userNode) {
-
-                console.log('found user');
+                socialProfiles.userEmail = userNode.get('email');
                 const profileNode = await neode.merge('Profile', profileFields);
-                console.log('created or updated user profile');
                 const socialNode = await neode.merge('SocialProfile', socialProfiles);
-                console.log('created or updated social profile');
                 await profileNode.relateTo(userNode, 'belongs_to');
                 await socialNode.relateTo(userNode, 'belongs_to');
-
                 return res.json({ pF: profileFields, sF: socialProfiles });
             }
 
@@ -147,15 +141,11 @@ router.get('/', async (req, res) => {
         let usersArray = await neode.hydrate(users, 'u').toJson();
 
         for (let i = 0; i < usersArray.length; i++) {
-            console.log('inside the for loop');
-            console.log(usersArray[i].email);
             let userProfile = await neode.cypher(config.get('userProfileQuery'), {
                 email: usersArray[i].email
             });
-            console.log(userProfile);
             let nextProfileNode = await neode.hydrate(userProfile, 'profile').toJson();
             userProfilesArray.push(nextProfileNode);
-            console.log(nextProfileNode);
 
         }
 

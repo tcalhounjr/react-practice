@@ -8,11 +8,15 @@ module.exports = {
     facebook: {
         type: 'string'
     },
-    linkedin: {
+    linkedIn: {
         type: 'string'
     },
     instagram: {
         type: 'string'
+    },
+    userEmail: {
+        type: 'string',
+        primary: true
     },
 
     //Relationships
