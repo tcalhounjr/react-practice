@@ -102,7 +102,7 @@ router.post('/',
 
         try {
             //Either create profiles and add relationships or update existing profiles
-            const userNode = await neode.findById('User', req.login.id);
+            let userNode = await neode.findById('User', req.login.id);
             if (userNode) {
                 socialProfiles.userEmail = userNode.get('email');
                 const profileNode = await neode.merge('Profile', profileFields);
@@ -159,6 +159,62 @@ router.get('/', async (req, res) => {
     catch (err) {
         console.error(err.messsage);
         res.status(500).send('Sever Error');
+    }
+});
+
+//@route  GET api/profile/
+//@desc   Get user profile
+//@access Public
+router.get('/user/:id', async (req, res) => {
+    try {
+        //Get profiles by user ID
+        let userNode = await neode.findById('User', req.params.id);
+        if (!userNode) {
+            return res.status(400).json({ msg: 'Profile not found' });
+        }
+
+        let profileKey = userNode.get('email');
+        let userProfile = await neode.cypher(config.get('userProfileQuery'), { email: profileKey });
+        if (!userProfile) return res.status(400).json({ msg: 'Profile not found' });
+        let profileObject = await neode.hydrate(userProfile, 'profile').toJson();
+        res.json(profileObject);
+
+    } catch (err) {
+        console.error(err.message);
+        if (err.kind == 'ObjectId') {
+            return res.status(400).json({ msg: 'Profile not found' });
+        }
+        res.status(500).send('Server Error');
+        console.trace();
+        console.log(err.stack);
+    }
+});
+
+//@route  DELETE api/profile/
+//@desc   Delete profile, user, & posts
+//@access Private
+
+router.delete('/', auth, async (req, res) => {
+    try {
+        let userNode = await neode.findById('User', req.login.id);
+        if (!userNode) {
+            return res.status(400).json({ msg: 'User not found' });
+        }
+        let userEmail = userNode.get('email');
+        console.log(userEmail);
+        console.log('about to run the delete query');
+        let queryResponse = await neode.cypher(config.get('deleteUserQuery'), { email: userEmail });
+        console.log('just ran the delete query');
+        console.log(queryResponse);
+
+        queryResponse = userNode.delete();
+        console.log(queryResponse);
+        res.json({ msg: "User profile deleted." });
+
+    } catch (error) {
+        res.status(500).send('Server Error');
+        console.trace();
+        console.log(err.stack);
     }
 });
 

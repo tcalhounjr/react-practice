@@ -12,24 +12,37 @@ const config = require('config');
 
 const neode = require('neode')
     .fromEnv()
-    .with({ User: require("../../models/User") });
+    .with({
+        User: require("../../models/User")
+    });
 
 console.log(neode);
 
 //@route  POST api/users
 //@desc   Register user
 //@access Public
-router.post('/', [
+router.post('/:type', [
     check('name', 'Name is required').not().isEmpty(),
     check('email', 'Please enter a valid email').isEmail(),
     check('password', 'Please enter a password with 8 or more characters').isLength({ min: 6 })
+    // check('type', 'Please select a user type').not().isEmpty()
 ],
     async (req, res) => {
         const errors = validationResult(req);
+        const role = req.params.type;
+        console.log('This user signed up as a ' + role);
+
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() })
         }
+
         console.log(req.body);
+
+        if (role === "") {
+            return res.status(400).json({ errors: [{ msg: 'Invalid user type' }] });
+        }
+
+
 
         const { name, email, password } = req.body;
         console.log(name + ' email is ' + email + ' and his password is ' + password);
@@ -57,7 +70,8 @@ router.post('/', [
                 name,
                 email,
                 avatar,
-                password
+                password,
+                role
             };
             console.log(newUser);
 

@@ -9,14 +9,20 @@ module.exports = {
         type: 'string',
         required: true
     },
-    "password": {
+    password: {
         type: 'string',
         required: true
     },
-    "avatar": {
+    avatar: {
         type: 'string'
     },
-    "date": {
+    role: {
+        type: 'string'
+    },
+    userID: {
+        type: 'uuid'
+    },
+    date: {
         type: 'date',
         default: () => new Date()
     }

@@ -23,67 +23,6 @@ module.exports = {
         type: 'string',
         primary: true
     },
-    // experience: [
-    //     {
-    //         title: {
-    //             type: 'string',
-    //             required: true
-    //         },
-    //         company: {
-    //             type: 'string',
-    //             required: true
-    //         },
-    //         location: {
-    //             type: 'string'
-    //         },
-    //         from: {
-    //             type: 'date',
-    //             default: () => new Date()
-    //         },
-    //         to: {
-    //             type: 'date',
-    //             default: () => new Date()
-    //         },
-    //         current: {
-    //             type: 'boolean',
-    //             default: false
-    //         },
-    //         description: {
-    //             type: 'string'
-    //         }
-    //     }
-    // ],
-    // education: [
-    //     {
-    //         fieldOfStudy: {
-    //             type: 'string',
-    //             required: true
-    //         },
-    //         company: {
-    //             type: 'string',
-    //             required: true
-    //         },
-    //         location: {
-    //             type: 'string'
-    //         },
-    //         from: {
-    //             type: 'date',
-    //             default: () => new Date()
-    //         },
-    //         to: {
-    //             type: 'date',
-    //             default: () => new Date()
-    //         },
-    //         current: {
-    //             type: 'boolean',
-    //             default: false
-    //         },
-    //         description: {
-    //             type: 'string'
-    //         }
-    //     }
-    // ],
-
     date: {
         type: 'date',
         default: () => new Date()

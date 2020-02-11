@@ -1,5 +1,6 @@
 {
     "jwtSecret": "uzosecret2020",
     "userProfileQuery": "MATCH (u:User {email: {email}})<-[:BELONGS_TO]-(profile) RETURN profile",
+    "deleteUserQuery": "MATCH (u:User {email: {email}})<-[:BELONGS_TO]-(profile) DETACH DELETE profile",
     "allUsersQuery": "MATCH (u:User) RETURN u"
 }
