@@ -27,7 +27,7 @@
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
     "neo4j-driver": "^4.0.1",
-    "neode": "^0.3.6",
+    "neode": "^0.3.7",
     "request": "^2.88.0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../../middleware/auth');
+const auth = require('../../../middleware/auth');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
@@ -8,7 +8,7 @@ const neode = require('neode')
     .fromEnv()
     .with({
         User: require("../../../models/User"),
-        Profile: require('../../../models/SubProfile'),
+        Profile: require('../../../models/Subcontractor'),
         Project: require('../../../models/Project')
     });
 
@@ -34,7 +34,7 @@ router.post('/',
             desc
         } = req.body
 
-        const profileNode
+        const profileNode = {};
 
         //Build project object
         const projectFields = {};
@@ -51,7 +51,7 @@ router.post('/',
             }
 
             if (profileNode) {
-                const projectNode = await neode.merge('Project', projectFields);
+                const projectNode = await neode.create('Project', projectFields);
                 await profileNode.relateTo(projectNode, 'performed_on');
                 return res.json({ pF: projectFields });
             }
@@ -69,3 +69,5 @@ router.post('/',
 
 
 );
+
+module.exports = router;

@@ -1,3 +1,3 @@
-odule.exports = {
+module.exports = {
 
 };

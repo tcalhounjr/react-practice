@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../../middleware/auth');
+const auth = require('../../../middleware/auth');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 
@@ -8,7 +8,7 @@ const neode = require('neode')
     .fromEnv()
     .with({
         User: require("../../../models/User"),
-        Profile: require('../../../models/SubProfile')
+        Subcontractor: require('../../../models/Subcontractor')
     });
 
 //@route  POST api/dbe/
@@ -18,8 +18,8 @@ const neode = require('neode')
 router.post('/',
     [auth,
         [
-            check('status', 'Status is required').not().isEmpty(),
-            check('skills', 'At least one skill is required').not().isEmpty()
+            check('name', 'Name is required').not().isEmpty(),
+            check('phone', 'Phone number is required').not().isEmpty()
         ]
     ],
     async (req, res) => {
@@ -29,15 +29,18 @@ router.post('/',
         }
 
         const {
-            company,
+            name,
+            phone,
             website,
-            location,
-            status,
-            skills,
-            bio,
-            githubusername,
-            experience,
-            education,
+            poc,
+            naics,
+            designation,
+            certs,
+            street_one,
+            street_two,
+            city,
+            state,
+            zip,
             youtube,
             facebook,
             twitter,
@@ -47,20 +50,18 @@ router.post('/',
 
         //Build profile object
         const profileFields = {};
-        if (company) profileFields.company = company;
+        if (name) profileFields.name = name;
+        if (phone) profileFields.phone = phone;
         if (website) profileFields.website = website;
-        if (location) profileFields.location = location;
-        if (status) profileFields.status = status;
-        if (bio) profileFields.bio = bio;
-        if (githubusername) profileFields.githubusername = githubusername;
-        if (education) profileFields.education = education;
-        if (experience) profileFields.experience = experience;
-        if (education) profileFields.education = education;
-        if (skills) {
-            // let skillsArray = skills.split(',').map(skill => skill.trim());
-            // if necessary, just build the skills array once it's pulled from the DB
-            profileFields.skills = skills;
-        }
+        if (poc) profileFields.poc = poc;
+        if (naics) profileFields.status = naics;
+        if (designation) profileFields.bio = designation;
+        if (certs) profileFields.certs = certs;
+        if (street_one) profileFields.street_one = street_one;
+        if (street_two) profileFields.street_two = street_two;
+        if (city) profileFields.city = city;
+        if (state) profileFields.state = state;
+        if (zip) profileFields.zip = zip;
 
         //Build social object
         socialProfiles = {};
@@ -71,16 +72,26 @@ router.post('/',
         if (instagram) socialProfiles.instagram = instagram;
         socialProfiles.userEmail = "";
 
+        console.log('//////');
+        console.log(req.login.id);
+        console.log('//////');
+
         try {
             //Either create profiles and add relationships or update existing profiles
-            let userNode = await neode.findById('User', req.login.id);
+            let userNode = await neode.findById('User', 0);
+
             if (userNode) {
-                socialProfiles.userEmail = userNode.get('email');
-                const profileNode = await neode.merge('Profile', profileFields);
-                const socialNode = await neode.merge('SocialProfile', socialProfiles);
+                console.log('inside if statement');
+                console.log(userNode);
+                //socialProfiles.userEmail = userNode.get('email');
+                const profileNode = await neode.mergeOn('Subcontractor', profileFields);
+                console.log('profile node worked');
+                console.log(profileNode);
+                console.log('that was the profile node')
+                //const socialNode = await neode.merge('SocialProfile', socialProfiles);
                 await profileNode.relateTo(userNode, 'belongs_to');
-                await socialNode.relateTo(userNode, 'belongs_to');
-                return res.json({ pF: profileFields, sF: socialProfiles });
+                //await socialNode.relateTo(userNode, 'belongs_to');
+                return res.json({ pF: profileFields });
             }
 
         } catch (err) {
@@ -90,8 +101,8 @@ router.post('/',
             console.log(err.stack);
         }
 
-        console.log(profileFields.skills)
-        res.send('Something went terribly wrong. Go fix it!!!');
+        console.log(profileFields);
+        //res.send('Something went terribly wrong. Go fix it!!!');
 
     }
 
@@ -124,3 +135,5 @@ router.get('/me', auth, async (req, res) => {
         res.status(500).send('Sever Error');
     }
 });
+
+module.exports = router;

@@ -1,25 +1,33 @@
 module.exports = {
     name: {
-        type: 'string'
+        type: 'string',
+        required: true
     },
     phone: {
-        type: 'string'
+        type: 'string',
+        required: true
     },
     website: {
-        type: 'string'
+        type: 'string',
+        required: true
+    },
+    poc: {
+        type: 'string',
+        required: true
     },
     naics: {
-        type: 'string'
+        type: 'string',
+        required: true
     },
-    dbe: {
-        type: 'string'
+    designation: {
+        type: 'string',
+        required: true
     },
     certs: {
         type: 'string'
     },
     company_id: {
-        type: 'uuid',
-        required: true
+        type: 'uuid'
     },
     capacity: {
         type: 'float'

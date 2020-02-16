@@ -25,6 +25,26 @@ module.exports = {
         type: 'float'
     },
 
+    street_one: {
+        type: 'string',
+        required: true
+    },
+    street_two: {
+        type: 'string'
+    },
+    city: {
+        type: 'string',
+        required: true
+    },
+    state: {
+        type: 'string',
+        required: true
+    },
+    zip: {
+        type: 'string',
+        required: true
+    },
+
     owned_by: {
         type: 'relationship',
         target: 'User',
@@ -36,7 +56,7 @@ module.exports = {
     },
     located_in: {
         type: 'relationship',
-        target: 'Address',
+        target: 'Metro',
         relationship: 'LOCATED_IN',
         direction: 'out',
         properties: {
