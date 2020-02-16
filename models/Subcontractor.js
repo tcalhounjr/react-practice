@@ -116,6 +116,16 @@ module.exports = {
         properties: {
             amount: 'string',
         }
+    },
+
+    belongs_to: {
+        type: 'relationship',
+        target: 'User',
+        relationship: 'BELONGS_TO',
+        direction: 'out',
+        properties: {
+            name: 'string'
+        }
     }
 
 

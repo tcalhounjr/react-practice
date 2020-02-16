@@ -19,7 +19,15 @@ router.post('/',
     [auth,
         [
             check('name', 'Name is required').not().isEmpty(),
-            check('phone', 'Phone number is required').not().isEmpty()
+            check('phone', 'Phone number is required').not().isEmpty(),
+            check('website', 'Website is required').not().isEmpty(),
+            check('poc', 'poc is required').not().isEmpty(),
+            check('naics', 'naics code is required').not().isEmpty(),
+            check('designation', 'designation is required').not().isEmpty(),
+            check('street_one', 'street_one is required').not().isEmpty(),
+            check('city', 'city is required').not().isEmpty(),
+            check('state', 'state is required').not().isEmpty(),
+            check('zip', 'zip is required').not().isEmpty()
         ]
     ],
     async (req, res) => {
@@ -54,8 +62,8 @@ router.post('/',
         if (phone) profileFields.phone = phone;
         if (website) profileFields.website = website;
         if (poc) profileFields.poc = poc;
-        if (naics) profileFields.status = naics;
-        if (designation) profileFields.bio = designation;
+        if (naics) profileFields.naics = naics;
+        if (designation) profileFields.designation = designation;
         if (certs) profileFields.certs = certs;
         if (street_one) profileFields.street_one = street_one;
         if (street_two) profileFields.street_two = street_two;
@@ -84,7 +92,7 @@ router.post('/',
                 console.log('inside if statement');
                 console.log(userNode);
                 //socialProfiles.userEmail = userNode.get('email');
-                const profileNode = await neode.mergeOn('Subcontractor', profileFields);
+                const profileNode = await neode.merge('Subcontractor', profileFields);
                 console.log('profile node worked');
                 console.log(profileNode);
                 console.log('that was the profile node')
@@ -99,6 +107,7 @@ router.post('/',
             res.status(500).send('Server Error');
             console.trace();
             console.log(err.stack);
+            console.log(err.details);
         }
 
         console.log(profileFields);
