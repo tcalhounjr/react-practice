@@ -124,24 +124,31 @@ router.post('/',
 
 router.get('/me', auth, async (req, res) => {
     try {
+        console.log('******YOU ARE HERE********')
         const userNode = await neode.findById('User', req.login.id);
+        console.log(userNode);
         const profileNode = await neode.cypher(config.get('userProfileQuery'), {
             email: userNode.get('email')
         });
+
+        console.log('........');
+        console.log(userNode);
+        console.log('........');
 
         if (profileNode.records.length == 0) {
             return res.status(400).json({ msg: 'There is no profile for this user' });
         }
 
-        let userProfile = {
-            test: 'this is the user profile'
-        };
-
+        let userProfile = await neode.hydrate(profileNode, 'profile').toJson();
+        console.log('........');
+        console.log(userProfile);
+        console.log('........');
         res.json(userProfile);
     }
     catch (err) {
         console.error(err.messsage);
         res.status(500).send('Sever Error');
+        console.error(err.details);
     }
 });
 

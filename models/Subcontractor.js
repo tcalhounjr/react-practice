@@ -7,6 +7,10 @@ module.exports = {
         type: 'string',
         required: true
     },
+    email: {
+        type: 'string',
+        required: true
+    },
     website: {
         type: 'string',
         required: true
@@ -15,19 +19,23 @@ module.exports = {
         type: 'string',
         required: true
     },
-    naics: {
+    disadvantage: {
         type: 'string',
         required: true
     },
-    designation: {
+    cert_num: {
         type: 'string',
         required: true
     },
-    certs: {
-        type: 'string'
+    cert_date: {
+        type: 'string',
+        required: true
     },
     company_id: {
         type: 'uuid'
+    },
+    capabilities: {
+        type: 'string'
     },
     capacity: {
         type: 'float'
@@ -54,7 +62,7 @@ module.exports = {
 
     owned_by: {
         type: 'relationship',
-        target: 'User',
+        target: 'Profile',
         relationship: 'OWNED_BY',
         direction: 'out',
         properties: {
@@ -120,11 +128,24 @@ module.exports = {
 
     belongs_to: {
         type: 'relationship',
-        target: 'User',
+        target: 'Profile',
         relationship: 'BELONGS_TO',
         direction: 'out',
         properties: {
             name: 'string'
+        }
+    },
+
+    classified_as: {
+        type: 'relationship',
+        target: 'Naics',
+        relationship: 'CLASSIFIED_AS',
+        direction: 'out',
+        properties: {
+            dbe: 'string',
+            mbe: 'string',
+            sbe: 'string',
+            acdbe: 'string'
         }
     }
 

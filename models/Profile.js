@@ -38,4 +38,5 @@ module.exports = {
             name: 'string'
         }
     }
+
 };

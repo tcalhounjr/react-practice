@@ -1,30 +1,33 @@
 module.exports = {
     name: {
-        type: 'string'
+        type: 'string',
+        required: true
     },
     phone: {
-        type: 'string'
+        type: 'string',
+        required: true
+    },
+    email: {
+        type: 'string',
+        required: true
     },
     website: {
-        type: 'string'
+        type: 'string',
+        required: true
     },
-    naics: {
-        type: 'string'
-    },
-    dbe: {
-        type: 'string'
-    },
-    certs: {
-        type: 'string'
+    poc: {
+        type: 'string',
+        required: true
     },
     company_id: {
-        type: 'uuid',
-        required: true
+        type: 'uuid'
+    },
+    capabilities: {
+        type: 'string'
     },
     capacity: {
         type: 'float'
     },
-
     street_one: {
         type: 'string',
         required: true
@@ -92,6 +95,16 @@ module.exports = {
             from: 'string',
             to: 'string',
             role: 'string'
+        }
+    },
+
+    belongs_to: {
+        type: 'relationship',
+        target: 'User',
+        relationship: 'BELONGS_TO',
+        direction: 'out',
+        properties: {
+            name: 'string'
         }
     }
 
