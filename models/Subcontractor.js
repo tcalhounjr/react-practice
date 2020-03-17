@@ -107,7 +107,7 @@ module.exports = {
     },
     hired_by: {
         type: 'relationship',
-        target: 'GeneralContractor',
+        target: 'GeneralContractor, Agency',
         relationship: 'HIRED_BY',
         direction: 'out',
         properties: {

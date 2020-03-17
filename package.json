@@ -1,7 +1,7 @@
 {
-  "name": "react-practice",
+  "name": "kataba.io",
   "version": "1.0.0",
-  "description": "practice react app",
+  "description": "automated compliance for government contractors",
   "main": "server.js",
   "scripts": {
     "server": "nodemon server.js",
