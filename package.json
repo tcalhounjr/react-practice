@@ -20,7 +20,7 @@
   "dependencies": {
     "@neode/express": "^0.1.0",
     "bcryptjs": "^2.4.3",
-    "config": "^3.2.4",
+    "config": "^3.3.8",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "express-validator": "^6.3.1",
